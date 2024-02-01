@@ -10,40 +10,40 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.less'
 })
 export class AppComponent {
-  stateOne: number = 1;
-  stateTwo: number = 0;
+  state: number = 0;
 
   textTwo = 'Donec libero erat, vehicula id ipsum ac, maximus ultricies velit. Cras et iaculis mi. Fusce sed purus non magna interdum facilisis quis eget turpis. Aenean vestibulum massa vel nisl faucibus lobortis';
   chars = this.textTwo.split('');
+  displayText: string = '';
 
-  onScroll(event: any) {
-    let opacityOne = this.stateOne;
-    let opacityTwo = this.stateTwo;
+  underscoreRemoval = 300
+  textReveal = 500
 
-    if (event.deltaY > 0) {
-      if (opacityOne > 0.5) {
-        opacityOne -= 0.1;
+  constructor() {
+    this.chars = this.textTwo.split('');
+    this.autoReveal();
+  }
+
+  autoReveal() {
+    let interval = setInterval(() => {
+      if (this.state < this.chars.length) {
+        this.displayText += this.chars[this.state] + '_';
+        setTimeout(() => {
+          this.displayText = this.displayText.slice(0, -1);
+        }, this.underscoreRemoval);
+        this.state += 1;
+      } else {
+        clearInterval(interval);
       }
-      opacityTwo += 0.1;
-    } else {
-      opacityOne += 1;
-      opacityTwo -= 0.1;
-    }
-    if (opacityOne < 0.5) opacityOne = 0.5;
-    if (opacityOne > 1) opacityOne = 1;
-
-    if (opacityTwo < 0) opacityTwo = 0;
-    if (opacityTwo > 1) opacityTwo = 1;
-
-    this.stateOne = opacityOne;
-    this.stateTwo = opacityTwo;
+    }, this.textReveal);
   }
 
-  getOpacity(index: number): number {
-    let scrollPosition = (this.stateTwo * this.chars.length) * 1.8;
-    let opacity = (scrollPosition - index) / this.chars.length;
-    if (opacity < 0) opacity = 0;
-    return opacity;
-  }
-  
+  // getOpacity(index: number): number {
+  //   return index < this.stateTwo ? 1 : 0;
+  // }
+
+  // getChar(index: number): string {
+  //   return index === Math.floor(this.stateTwo) ? this.chars[index] + '_' : this.chars[index];
+  // }
+
 }

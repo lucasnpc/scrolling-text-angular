@@ -1,11 +1,11 @@
 <main class="main">
-  <div class="content" (wheel)="onScroll($event)">
-    <p [style.opacity]="stateOne">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean placerat vestibulum
+  <div class="content">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean placerat vestibulum
       dolor.
       Cras felis sem, ultricies quis ante sit amet, sagittis vulputate sapien. Nam dignissim ligula erat, id
       sollicitudin nisl luctus at. </p>
     <p>
-      <span *ngFor="let char of chars; let i = index" [style.opacity]="getOpacity(i)">{{char}}</span>
+      {{displayText}}
     </p>
   </div>
 </main>
