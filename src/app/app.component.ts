@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -11,6 +11,7 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   state: number = 0;
+  @ViewChild('contentDiv') contentDiv!: ElementRef;
 
   paragraphs = [
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -48,6 +49,7 @@ export class AppComponent {
           clearInterval(interval);
         }
       }
+      this.contentDiv.nativeElement.scrollTop = this.contentDiv.nativeElement.scrollHeight;
     }, this.textReveal);
   }
 
