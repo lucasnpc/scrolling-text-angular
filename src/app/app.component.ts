@@ -1,56 +1,86 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NgxPageScrollModule } from 'ngx-page-scroll';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, NgxPageScrollModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
-export class AppComponent {
-  state: number = 0;
-  @ViewChild('contentDiv') contentDiv!: ElementRef;
+export class AppComponent implements AfterViewChecked {
+  // Variables
+  state = 0;
+  paragraphIndex = 0;
+  displayText = '';
+  completedParagraphs: string[] = [];
+  underscoreRemoval = 300;
+  textReveal = 400;
 
+  // Paragraphs
   paragraphs = [
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     "Nunc pulvinar justo sit amet consequat convallis.",
     "Nam in purus iaculis, facilisis ipsum et, scelerisque turpis."
   ];
-  paragraphIndex: number = 0;
-  chars = this.paragraphs[this.paragraphIndex].split(/(\s+)/)
-  displayText: string = '';
-  completedText: string = '';
 
-  underscoreRemoval = 300
-  textReveal = 400
+  words = this.paragraphs[this.paragraphIndex].split(/(\s+)/);
+
+  // HTML Elements
+  @ViewChildren('pElement') pElements!: QueryList<ElementRef>;
 
   constructor() {
     this.autoReveal();
   }
 
+  ngAfterViewChecked() {
+    this.scrollToLastParagraph();
+  }
+
   autoReveal() {
     let interval = setInterval(() => {
-      if (this.state < this.chars.length) {
-        this.displayText += this.chars[this.state] + '_';
+      if (this.state < this.words.length) {
+        this.addUnderscore()
         setTimeout(() => {
-          this.displayText = this.displayText.slice(0, -1);
+          this.removeUnderscore()
         }, this.underscoreRemoval);
         this.state += 1;
       } else {
-        this.completedText += this.displayText + '<br>';
-        this.displayText = '';
-        this.paragraphIndex += 1;
+        this.addCompletedParagraph()
         if (this.paragraphIndex < this.paragraphs.length) {
-          this.chars = this.paragraphs[this.paragraphIndex].split(/(\s+)/);
-          this.state = 0;
+          this.startNextParagraph()
         } else {
+          // All paragraphs are completed
           clearInterval(interval);
         }
       }
-      this.contentDiv.nativeElement.scrollTop = this.contentDiv.nativeElement.scrollHeight;
     }, this.textReveal);
   }
 
+  scrollToLastParagraph(): void {
+    try {
+      this.pElements.last.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    } catch (err) { }
+  }
+
+  addUnderscore() {
+    this.displayText += this.words[this.state] + '_';
+  }
+
+  removeUnderscore() {
+    this.displayText = this.displayText.slice(0, -1);
+  }
+
+  addCompletedParagraph() {
+    this.completedParagraphs.push(this.displayText);
+    this.displayText = '';
+    this.paragraphIndex += 1;
+  }
+
+  startNextParagraph() {
+    this.words = this.paragraphs[this.paragraphIndex].split(/(\s+)/);
+    this.state = 0;
+  }
 }

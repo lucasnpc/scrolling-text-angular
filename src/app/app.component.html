@@ -1,6 +1,6 @@
 <main class="main">
-  <div class="content" #contentDiv>
-    <p [innerHTML]="completedText" class="completed"></p>
-    <p [innerHTML]="displayText"></p>
+  <div class="content">
+    <p *ngFor="let paragraph of completedParagraphs" class="completed" #pElement>{{paragraph}}</p>
+    <p [innerHTML]="displayText" #pElement></p>
   </div>
 </main>

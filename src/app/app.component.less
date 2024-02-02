@@ -2,29 +2,29 @@ main {
     width: 98%;
     height: 95vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 1rem;
     box-sizing: inherit;
 }
 
-div {
-    width: 50%;
-    height: 25vh;
+
+.completed {
+    opacity: 0.5;
+}
+
+.content {
+    width: 35%;
+    height: 20vh;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    overflow: hidden;
 }
 
-p {
-    text-align: justify;
-    font-size: 64px;
+.content p {
     margin: 0;
-}
-
-p.completed {
-    opacity: 0.5;
-    transition: opacity 1s ease-in-out;
+    text-align: justify;
+    font-size: 60px;
 }
