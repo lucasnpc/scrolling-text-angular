@@ -1,6 +1,6 @@
 main {
-    width: 100%;
-    height: 100vh;
+    width: 98%;
+    height: 95vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,13 +9,22 @@ main {
 }
 
 div {
+    width: 50%;
+    height: 25vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 
 p {
+    text-align: justify;
     font-size: 64px;
-    transition: opacity 1s;
+    margin: 0;
+}
+
+p.completed {
+    opacity: 0.5;
+    transition: opacity 1s ease-in-out;
 }

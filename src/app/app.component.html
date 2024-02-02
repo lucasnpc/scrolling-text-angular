@@ -1,11 +1,6 @@
 <main class="main">
   <div class="content">
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean placerat vestibulum
-      dolor.
-      Cras felis sem, ultricies quis ante sit amet, sagittis vulputate sapien. Nam dignissim ligula erat, id
-      sollicitudin nisl luctus at. </p>
-    <p>
-      {{displayText}}
-    </p>
+    <p [innerHTML]="completedText" class="completed"></p>
+    <p [innerHTML]="displayText"></p>
   </div>
 </main>

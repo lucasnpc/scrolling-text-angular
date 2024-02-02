@@ -12,15 +12,20 @@ import { RouterOutlet } from '@angular/router';
 export class AppComponent {
   state: number = 0;
 
-  textTwo = 'Donec libero erat, vehicula id ipsum ac, maximus ultricies velit. Cras et iaculis mi. Fusce sed purus non magna interdum facilisis quis eget turpis. Aenean vestibulum massa vel nisl faucibus lobortis';
-  chars = this.textTwo.split('');
+  paragraphs = [
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    "Nunc pulvinar justo sit amet consequat convallis.",
+    "Nam in purus iaculis, facilisis ipsum et, scelerisque turpis."
+  ];
+  paragraphIndex: number = 0;
+  chars = this.paragraphs[this.paragraphIndex].split(/(\s+)/)
   displayText: string = '';
+  completedText: string = '';
 
   underscoreRemoval = 300
-  textReveal = 500
+  textReveal = 400
 
   constructor() {
-    this.chars = this.textTwo.split('');
     this.autoReveal();
   }
 
@@ -33,17 +38,17 @@ export class AppComponent {
         }, this.underscoreRemoval);
         this.state += 1;
       } else {
-        clearInterval(interval);
+        this.completedText += this.displayText + '<br>';
+        this.displayText = '';
+        this.paragraphIndex += 1;
+        if (this.paragraphIndex < this.paragraphs.length) {
+          this.chars = this.paragraphs[this.paragraphIndex].split(/(\s+)/);
+          this.state = 0;
+        } else {
+          clearInterval(interval);
+        }
       }
     }, this.textReveal);
   }
-
-  // getOpacity(index: number): number {
-  //   return index < this.stateTwo ? 1 : 0;
-  // }
-
-  // getChar(index: number): string {
-  //   return index === Math.floor(this.stateTwo) ? this.chars[index] + '_' : this.chars[index];
-  // }
 
 }
